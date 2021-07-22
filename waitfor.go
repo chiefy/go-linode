@@ -264,9 +264,8 @@ func (client Client) WaitForEventFinished(ctx context.Context, id interface{}, e
 		"action": action,
 
 		"created": map[string]interface{}{
-			// A literal date format is necessary because events
-			// cannot be filtered on `gte created` with a full RFC 3339 date.
-			"+gte": minStart.Format("2006-01-02T15:04:05"),
+			// The API uses UTC time, so we need to ensure the time is converted
+			"+gte": minStart.UTC().Format("2006-01-02T15:04:05"),
 		},
 
 		// With potentially 1000+ events coming back, we should filter on something
