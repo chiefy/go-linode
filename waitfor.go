@@ -261,13 +261,13 @@ func (client Client) WaitForEventFinished(ctx context.Context, id interface{}, e
 	titledEntityType := strings.Title(string(entityType))
 	filterStruct := map[string]interface{}{
 		// Nor is action
-		//"action": action,
+		"action": action,
 
-		// Created is not correctly filtered by the API
-		// We'll have to verify these values manually, for now.
-		//"created": map[string]interface{}{
-		//	"+gte": minStart.Format(time.RFC3339),
-		//},
+		"created": map[string]interface{}{
+			// A literal date format is necessary because events
+			// cannot be filtered on `gte created` with a full RFC 3339 date.
+			"+gte": minStart.Format("2006-01-02T15:04:05"),
+		},
 
 		// With potentially 1000+ events coming back, we should filter on something
 		// Warning: This optimization has the potential to break if users are clearing
