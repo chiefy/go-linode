@@ -337,10 +337,6 @@ func (client Client) WaitForEventFinished(ctx context.Context, id interface{}, e
 			for _, event := range events {
 				event := event
 
-				if event.Action != action {
-					// log.Println("action mismatch", event.Action, action)
-					continue
-				}
 				if event.Entity == nil || event.Entity.Type != entityType {
 					// log.Println("type mismatch", event.Entity.Type, entityType)
 					continue
@@ -376,10 +372,6 @@ func (client Client) WaitForEventFinished(ctx context.Context, id interface{}, e
 				// that the ListEvents method is not populating it correctly
 				if event.Created == nil {
 					log.Printf("[WARN] event.Created is nil when API returned: %#+v", event.Created)
-				} else if *event.Created != minStart && !event.Created.After(minStart) {
-					// Not the event we were looking for
-					// log.Println(event.Created, "is not >=", minStart)
-					continue
 				}
 
 				// This is the event we are looking for. Save our place.
